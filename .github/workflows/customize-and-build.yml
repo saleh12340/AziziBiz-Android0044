@@ -20,10 +20,14 @@ jobs:
           python3 <<'PY'
           from pathlib import Path
           import re
+          root = Path('app/src/main/java/com/mruraza/ims')
           repairs = {
-              'currentالوقتMillis': 'currentTimeMillis', 'discountالمبلغ': 'discountAmount',
-              'totalالكمية': 'totalQuantity', 'totalالمبلغ': 'totalAmount', 'fileالاسم': 'fileName',
-              'Resources.خطأ': 'Resources.Error'
+              'currentالوقتMillis': 'currentTimeMillis',
+              'discountالمبلغ': 'discountAmount',
+              'totalالكمية': 'totalQuantity',
+              'totalالمبلغ': 'totalAmount',
+              'fileالاسم': 'fileName',
+              'Resources.خطأ': 'Resources.Error',
           }
           replacements = {
               'Billing Management Console':'إدارة فواتير المبيعات','Purchase Bill':'فاتورة مشتريات',
@@ -43,22 +47,34 @@ jobs:
               'Discount':'الخصم','Total':'الإجمالي','Purchase':'مشتريات','Sale':'مبيعات','History':'السجل',
               'Profile':'الملف الشخصي','Rs':'ر.ي','₹':'ر.ي'
           }
-          paths = [Path('app/src/main/java/com/mruraza/ims/MainActivity.kt')] + list(Path('app/src/main/java/com/mruraza/ims/Presentation/Screens').glob('*.kt'))
           string_re = re.compile(r'("(?:\\.|[^"\\])*")')
-          for path in paths:
+          for path in root.rglob('*.kt'):
               text = path.read_text(encoding='utf-8')
-              for a,b in repairs.items(): text = text.replace(a,b)
-              def repl(m):
-                  raw=m.group(1)[1:-1]
-                  for a,b in sorted(replacements.items(), key=lambda x:len(x[0]), reverse=True): raw=raw.replace(a,b)
-                  return '"'+raw+'"'
-              path.write_text(string_re.sub(repl,text),encoding='utf-8')
-          strings=Path('app/src/main/res/values/strings.xml'); text=strings.read_text(encoding='utf-8')
-          text=re.sub(r'<string name="app_name">.*?</string>','<string name="app_name">بقالة العزي للمواد الغذائية</string>',text,flags=re.S)
+              for a, b in repairs.items():
+                  text = text.replace(a, b)
+              if 'Presentation/Screens' in str(path) or path.name == 'MainActivity.kt':
+                  def repl(m):
+                      raw = m.group(1)[1:-1]
+                      for a, b in sorted(replacements.items(), key=lambda x: len(x[0]), reverse=True):
+                          raw = raw.replace(a, b)
+                      return '"' + raw + '"'
+                  text = string_re.sub(repl, text)
+              path.write_text(text, encoding='utf-8')
+          strings = Path('app/src/main/res/values/strings.xml')
+          text = strings.read_text(encoding='utf-8')
+          text = re.sub(r'<string name="app_name">.*?</string>', '<string name="app_name">بقالة العزي للمواد الغذائية</string>', text, flags=re.S)
           if '<string name="business_name">' not in text:
-              text=text.replace('</resources>','    <string name="business_name">بقالة العزي للمواد الغذائية</string>\n    <string name="business_phone">776425052</string>\n</resources>')
-          strings.write_text(text,encoding='utf-8')
+              text = text.replace('</resources>', '    <string name="business_name">بقالة العزي للمواد الغذائية</string>\n    <string name="business_phone">776425052</string>\n</resources>')
+          strings.write_text(text, encoding='utf-8')
           PY
+          # Final exact repair pass across every Kotlin source file.
+          find app/src/main/java -type f -name '*.kt' -print0 | xargs -0 sed -i \
+            -e 's/currentالوقتMillis/currentTimeMillis/g' \
+            -e 's/discountالمبلغ/discountAmount/g' \
+            -e 's/totalالكمية/totalQuantity/g' \
+            -e 's/totalالمبلغ/totalAmount/g' \
+            -e 's/fileالاسم/fileName/g' \
+            -e 's/Resources\.خطأ/Resources.Error/g'
       - name: Commit source fixes
         shell: bash
         run: |
