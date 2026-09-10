@@ -177,7 +177,7 @@ private fun SupplierScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "خطأ: ${(suppliersState as Resources.خطأ).throwable.message}",
+                    "خطأ: ${(suppliersState as Resources.Error).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

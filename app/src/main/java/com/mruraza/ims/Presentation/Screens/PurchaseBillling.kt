@@ -134,7 +134,7 @@ fun PurchaseBilling(
                                 onClick = {
                                     saveComposableAsPdf(
                                         activity = activity,
-                                        fileName = "Bill_${System.currentالوقتMillis()}",
+                                        fileName = "Bill_${System.currentTimeMillis()}",
                                     ) {
                                         billPrintLayout(
                                             supplier = selectedSupplier!!,
@@ -184,7 +184,7 @@ private fun BillingScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "خطأ: ${(supplierState as Resources.خطأ).throwable.message}",
+                    "خطأ: ${(supplierState as Resources.Error).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -198,7 +198,7 @@ private fun BillingScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "خطأ: ${(goodsState as Resources.خطأ).throwable.message}",
+                    "خطأ: ${(goodsState as Resources.Error).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -418,7 +418,7 @@ private fun BillFooter(
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Column(modifier = Modifier.padding(end = 16.dp)) {
-                    Text(text = "الخصم : $discountالمبلغ")
+                    Text(text = "الخصم : $discountAmount")
                     if (showDiscount.value) {
                         OutlinedTextField(
                             modifier = Modifier.width(200.dp),
@@ -643,7 +643,7 @@ private fun billingBodyLayout(
                     }
                 }
                 Text(
-                    text = "ر.ي ${good.first.price * totalالكمية}",
+                    text = "ر.ي ${good.first.price * totalQuantity}",
                     style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold)
                 )
             }
@@ -914,7 +914,7 @@ private fun billPrintLayout(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "الإجمالي: ر.ي$totalالمبلغ",
+                text = "الإجمالي: ر.ي$totalAmount",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -940,7 +940,7 @@ private fun billPrintLayout(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "الإجمالي: ر.ي${totalالمبلغ - discount}",
+                text = "الإجمالي: ر.ي${totalAmount - discount}",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -1061,7 +1061,7 @@ private fun billItemLayoutForPrint(items: List<Pair<Goods, Int>>) {
 //
 //            val filePath = File(
 //                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-//                "$fileالاسم.pdf"
+//                "$fileName.pdf"
 //            )
 //            FileOutputStream(filePath).use {
 //                document.writeTo(it)
@@ -1170,7 +1170,7 @@ private fun saveComposableAsPdf(
             // 🟢 Step 4: Save PDF
             val filePath = File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                "$fileالاسم.pdf"
+                "$fileName.pdf"
             )
             FileOutputStream(filePath).use {
                 document.writeTo(it)

@@ -173,7 +173,7 @@ private fun CustomerScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "خطأ: ${(customerState as Resources.خطأ).throwable.message}",
+                    "خطأ: ${(customerState as Resources.Error).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -191,7 +191,7 @@ private fun StockScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "خطأ: ${(suppliersState as Resources.خطأ).throwable.message}",
+                    "خطأ: ${(suppliersState as Resources.Error).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -262,7 +262,7 @@ private fun StockScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "خطأ: ${(goodsState as Resources.خطأ).throwable.message}",
+                    "خطأ: ${(goodsState as Resources.Error).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
