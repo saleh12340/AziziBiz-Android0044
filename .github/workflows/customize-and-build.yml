@@ -14,79 +14,66 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Localize visible UI safely
+      - name: Repair source and localize visible UI
         shell: bash
         run: |
           python3 <<'PY'
           from pathlib import Path
           import re
-
-          replacements = {
-              'Billing Management Console':'إدارة فواتير المبيعات', 'Purchase Bill':'فاتورة مشتريات',
-              'Customer Management Console':'حسابات العملاء', 'Suppliers Management Console':'إدارة الموردين',
-              'User Profile':'بيانات البقالة', 'Stock Management Console':'المخزون والأصناف',
-              'Purchase History':'سجل المشتريات', 'Sell History':'سجل المبيعات', 'Dashboard':'الرئيسية',
-              'Customer':'العميل', 'Customers':'العملاء', 'Supplier':'المورد', 'Suppliers':'الموردون',
-              'Goods':'الأصناف', 'Good':'الصنف', 'Search':'بحث', 'Save':'حفظ', 'Cancel':'إلغاء',
-              'Add Goods':'إضافة صنف', 'Add':'إضافة', 'Edit':'تعديل', 'Delete':'حذف', 'Update':'تحديث',
-              'Print':'طباعة', 'Name':'الاسم', 'Phone':'الهاتف', 'Address':'العنوان',
-              'Please select a customer':'يرجى اختيار العميل', 'Please select some goods':'يرجى اختيار صنف واحد على الأقل',
-              'Bill saved':'تم حفظ الفاتورة', 'Downloads':'التنزيلات', 'Discount':'الخصم',
-              'Enter Discount':'أدخل الخصم', 'Total':'الإجمالي', 'Paid Amount':'المبلغ المدفوع',
-              'Payment Method':'طريقة الدفع', 'Remaining':'المتبقي', 'Cash':'نقداً', 'Credit':'آجل',
-              'Transfer':'تحويل', 'Quantity':'الكمية', 'Price':'السعر', 'Date':'التاريخ', 'Time':'الوقت',
-              'Amount':'المبلغ', 'Description':'الوصف', 'Purchase':'مشتريات', 'Sale':'مبيعات',
-              'History':'السجل', 'Reports':'التقارير', 'Inventory':'المخزون', 'Expenses':'المصروفات',
-              'Notes':'الملاحظات', 'Business Profile':'بيانات البقالة', 'Profile':'الملف الشخصي',
-              'Error':'خطأ', 'Loading':'جارٍ التحميل', 'Rs':'ر.ي', '₹':'ر.ي'
+          repairs = {
+              'currentالوقتMillis': 'currentTimeMillis', 'discountالمبلغ': 'discountAmount',
+              'totalالكمية': 'totalQuantity', 'totalالمبلغ': 'totalAmount', 'fileالاسم': 'fileName',
+              'Resources.خطأ': 'Resources.Error'
           }
-          # Longest first prevents Customer from corrupting Customers, etc.
-          replacements = sorted(replacements.items(), key=lambda p: len(p[0]), reverse=True)
-          files = [Path('app/src/main/java/com/mruraza/ims/MainActivity.kt')]
-          files += list(Path('app/src/main/java/com/mruraza/ims/Presentation/Screens').glob('*.kt'))
+          replacements = {
+              'Billing Management Console':'إدارة فواتير المبيعات','Purchase Bill':'فاتورة مشتريات',
+              'Customer Management Console':'حسابات العملاء','Suppliers Management Console':'إدارة الموردين',
+              'User Profile':'بيانات البقالة','Stock Management Console':'المخزون والأصناف',
+              'Purchase History':'سجل المشتريات','Sell History':'سجل المبيعات','Dashboard':'الرئيسية',
+              'Please select a customer':'يرجى اختيار العميل','Please select some goods':'يرجى اختيار صنف واحد على الأقل',
+              'Bill saved':'تم حفظ الفاتورة','Downloads':'التنزيلات','Enter Discount':'أدخل الخصم',
+              'Paid Amount':'المبلغ المدفوع','Payment Method':'طريقة الدفع','Remaining':'المتبقي',
+              'Cash':'نقداً','Credit':'آجل','Transfer':'تحويل','Quantity':'الكمية','Price':'السعر',
+              'Date':'التاريخ','Time':'الوقت','Amount':'المبلغ','Description':'الوصف','Business Profile':'بيانات البقالة',
+              'Reports':'التقارير','Inventory':'المخزون','Expenses':'المصروفات','Notes':'الملاحظات',
+              'Error':'خطأ','Loading':'جارٍ التحميل','Print':'طباعة','Save':'حفظ','Cancel':'إلغاء',
+              'Add Goods':'إضافة صنف','Add':'إضافة','Edit':'تعديل','Delete':'حذف','Update':'تحديث',
+              'Search':'بحث','Name':'الاسم','Phone':'الهاتف','Address':'العنوان','Customer':'العميل',
+              'Customers':'العملاء','Supplier':'المورد','Suppliers':'الموردون','Goods':'الأصناف','Good':'الصنف',
+              'Discount':'الخصم','Total':'الإجمالي','Purchase':'مشتريات','Sale':'مبيعات','History':'السجل',
+              'Profile':'الملف الشخصي','Rs':'ر.ي','₹':'ر.ي'
+          }
+          paths = [Path('app/src/main/java/com/mruraza/ims/MainActivity.kt')] + list(Path('app/src/main/java/com/mruraza/ims/Presentation/Screens').glob('*.kt'))
           string_re = re.compile(r'("(?:\\.|[^"\\])*")')
-          for path in files:
+          for path in paths:
               text = path.read_text(encoding='utf-8')
+              for a,b in repairs.items(): text = text.replace(a,b)
               def repl(m):
-                  s = m.group(1)
-                  raw = s[1:-1]
-                  for a,b in replacements:
-                      raw = raw.replace(a,b)
-                  return '"' + raw + '"'
-              new = string_re.sub(repl, text)
-              if new != text:
-                  path.write_text(new, encoding='utf-8')
-
-          strings = Path('app/src/main/res/values/strings.xml')
-          text = strings.read_text(encoding='utf-8')
-          text = re.sub(r'<string name="app_name">.*?</string>', '<string name="app_name">بقالة العزي للمواد الغذائية</string>', text, flags=re.S)
+                  raw=m.group(1)[1:-1]
+                  for a,b in sorted(replacements.items(), key=lambda x:len(x[0]), reverse=True): raw=raw.replace(a,b)
+                  return '"'+raw+'"'
+              path.write_text(string_re.sub(repl,text),encoding='utf-8')
+          strings=Path('app/src/main/res/values/strings.xml'); text=strings.read_text(encoding='utf-8')
+          text=re.sub(r'<string name="app_name">.*?</string>','<string name="app_name">بقالة العزي للمواد الغذائية</string>',text,flags=re.S)
           if '<string name="business_name">' not in text:
-              text = text.replace('</resources>', '    <string name="business_name">بقالة العزي للمواد الغذائية</string>\n    <string name="business_phone">776425052</string>\n</resources>')
-          strings.write_text(text, encoding='utf-8')
+              text=text.replace('</resources>','    <string name="business_name">بقالة العزي للمواد الغذائية</string>\n    <string name="business_phone">776425052</string>\n</resources>')
+          strings.write_text(text,encoding='utf-8')
           PY
-
-      - name: Commit localization
+      - name: Commit source fixes
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add app/src/main/java app/src/main/res/values/strings.xml
-          if ! git diff --cached --quiet; then
-            git commit -m "تخصيص واجهة التطبيق بالعربية وتحسين الهوية [skip ci]"
-            git push
-          fi
-
+          if ! git diff --cached --quiet; then git commit -m "إصلاح أخطاء Kotlin وتثبيت التعريب [skip ci]"; git push; fi
       - name: Setup JDK 17
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
           cache: gradle
-
       - name: Build debug APK
         run: chmod +x gradlew && ./gradlew assembleDebug --stacktrace
-
       - name: Upload final APK
         uses: actions/upload-artifact@v4
         with:
