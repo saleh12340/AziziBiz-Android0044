@@ -134,7 +134,7 @@ fun PurchaseBilling(
                                 onClick = {
                                     saveComposableAsPdf(
                                         activity = activity,
-                                        fileName = "Bill_${System.currentTimeMillis()}",
+                                        fileName = "Bill_${System.currentالوقتMillis()}",
                                     ) {
                                         billPrintLayout(
                                             supplier = selectedSupplier!!,
@@ -148,7 +148,7 @@ fun PurchaseBilling(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Print,
-                                    contentDescription = "Print"
+                                    contentDescription = "طباعة"
                                 )
                             }
                         }
@@ -184,7 +184,7 @@ private fun BillingScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "Error: ${(supplierState as Resources.Error).throwable.message}",
+                    "خطأ: ${(supplierState as Resources.خطأ).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -198,7 +198,7 @@ private fun BillingScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "Error: ${(goodsState as Resources.Error).throwable.message}",
+                    "خطأ: ${(goodsState as Resources.خطأ).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -253,13 +253,13 @@ private fun BillingScreenLayout(
                 if (selectedSupplier == null) {
                     Toast.makeText(
                         context,
-                        "Please select a customer",
+                        "يرجى اختيار العميل",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else if (selectedGoodsWithQuantity.isEmpty()) {
                     Toast.makeText(
                         context,
-                        "Please select some goods",
+                        "يرجى اختيار صنف واحد على الأقل",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -272,7 +272,7 @@ private fun BillingScreenLayout(
                     billViewModel.addPurchaseBill(bill)
                     Toast.makeText(
                         context,
-                        "Bill saved",
+                        "تم حفظ الفاتورة",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -307,7 +307,7 @@ private fun BillHeaderSupplier(
             .background(VeryLightGrey)
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
-            Text("Supplier")
+            Text("المورد")
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -418,7 +418,7 @@ private fun BillFooter(
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Column(modifier = Modifier.padding(end = 16.dp)) {
-                    Text(text = "Discount : $discountAmount")
+                    Text(text = "الخصم : $discountالمبلغ")
                     if (showDiscount.value) {
                         OutlinedTextField(
                             modifier = Modifier.width(200.dp),
@@ -427,7 +427,7 @@ private fun BillFooter(
                                 discountAmount = it.onlyDigits().toInt()
                                 onDiscountChange(discountAmount)
                             },
-                            label = { Text("Enter Discount") },
+                            label = { Text("أدخل الخصم") },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                         )
                     }
@@ -450,7 +450,7 @@ private fun BillFooter(
                         )
                         Spacer(Modifier.width(4.dp))
                         Text(
-                            text = "Save",
+                            text = "حفظ",
                             style = TextStyle(fontSize = 18.sp), fontWeight = FontWeight.Bold
                         )
                     }
@@ -483,7 +483,7 @@ private fun BillFooter(
                         Icon(Icons.Default.Add, "")
 
                         Text(
-                            text = "Add",
+                            text = "إضافة",
                             style = TextStyle(fontSize = 18.sp), fontWeight = FontWeight.Bold
                         )
                     }
@@ -530,7 +530,7 @@ private fun SearchableDropdown(
                 if (it.isEmpty()) onItemSelected(Supplier(name = ""))
             },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Search...") },
+            label = { Text("بحث...") },
             trailingIcon = {
                 Icon(
                     Icons.Default.ArrowDropDown,
@@ -587,7 +587,7 @@ private fun billingBodyLayout(
                 .asImageBitmap(),
             contentScale = ContentScale.Fit,
             modifier = Modifier.size(48.dp).aspectRatio(1f).padding(end = 8.dp),
-            contentDescription = "Good Image"
+            contentDescription = "الصنف Image"
         )
         Column(modifier = Modifier.weight(1f)) {
             Text(
@@ -643,7 +643,7 @@ private fun billingBodyLayout(
                     }
                 }
                 Text(
-                    text = "Rs ${good.first.price * totalQuantity}",
+                    text = "ر.ي ${good.first.price * totalالكمية}",
                     style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold)
                 )
             }
@@ -686,7 +686,7 @@ private fun addGoodsLayout(
         Card {
             Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
                 Text(
-                    text = "Add Goods",
+                    text = "إضافة صنف",
                     style = TextStyle(
                         fontSize = 16.sp
                     )
@@ -758,7 +758,7 @@ private fun addGoodsLayout(
                             onDismissRequest()
                         }
                     ) {
-                        Text("Cancel")
+                        Text("إلغاء")
                     }
                     Button(
                         enabled = selectedGoods != null && quantity >= 1,
@@ -766,7 +766,7 @@ private fun addGoodsLayout(
                             onItemSelected(Pair(selectedGoods!!, quantity))
                         }
                     ) {
-                        Text("Save")
+                        Text("حفظ")
                     }
                 }
 
@@ -815,7 +815,7 @@ private fun SearchableDropdownWithImage(
                 )
             },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Search...") },
+            label = { Text("بحث...") },
             trailingIcon = {
                 Icon(
                     Icons.Default.ArrowDropDown,
@@ -853,7 +853,7 @@ private fun SearchableDropdownWithImage(
                                     LocalContext.current,
                                     item.image.toUri()
                                 )!!.asImageBitmap(),
-                                contentDescription = "Good Image",
+                                contentDescription = "الصنف Image",
                                 modifier = Modifier.size(24.dp)
                             )
                         }
@@ -914,7 +914,7 @@ private fun billPrintLayout(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "Total: ₹$totalAmount",
+                text = "الإجمالي: ر.ي$totalالمبلغ",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -927,7 +927,7 @@ private fun billPrintLayout(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "Discount: -₹$discount",
+                text = "الخصم: -ر.ي$discount",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -940,7 +940,7 @@ private fun billPrintLayout(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "Total: ₹${totalAmount - discount}",
+                text = "الإجمالي: ر.ي${totalالمبلغ - discount}",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
@@ -961,7 +961,7 @@ private fun supplierDetailsForPrint(
     ) {
         Row {
             Text(
-                text = "Name: ",
+                text = "الاسم: ",
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 12.sp)
             )
             Text(text = name, style = TextStyle(fontSize = 12.sp))
@@ -969,7 +969,7 @@ private fun supplierDetailsForPrint(
         if (phone != "") {
             Row {
                 Text(
-                    text = "Phone: ",
+                    text = "الهاتف: ",
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 )
                 Text(text = phone, style = TextStyle(fontSize = 12.sp))
@@ -978,7 +978,7 @@ private fun supplierDetailsForPrint(
         if (address != "") {
             Row {
                 Text(
-                    text = "Address: ",
+                    text = "العنوان: ",
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 12.sp)
                 )
                 Text(text = address, style = TextStyle(fontSize = 12.sp))
@@ -1006,7 +1006,7 @@ private fun billItemLayoutForPrint(items: List<Pair<Goods, Int>>) {
                 }
 
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
-                    Text("₹${good.price * qty}", fontSize = 14.sp)
+                    Text("ر.ي${good.price * qty}", fontSize = 14.sp)
                 }
 
             }
@@ -1061,14 +1061,14 @@ private fun billItemLayoutForPrint(items: List<Pair<Goods, Int>>) {
 //
 //            val filePath = File(
 //                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-//                "$fileName.pdf"
+//                "$fileالاسم.pdf"
 //            )
 //            FileOutputStream(filePath).use {
 //                document.writeTo(it)
 //            }
 //            document.close()
 //
-//            Toast.makeText(activity, "Bill saved at Downloads", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(activity, "تم حفظ الفاتورة at التنزيلات", Toast.LENGTH_SHORT).show()
 //
 //            // cleanup
 //            root.removeView(composeView)
@@ -1170,14 +1170,14 @@ private fun saveComposableAsPdf(
             // 🟢 Step 4: Save PDF
             val filePath = File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                "$fileName.pdf"
+                "$fileالاسم.pdf"
             )
             FileOutputStream(filePath).use {
                 document.writeTo(it)
             }
             document.close()
 
-            Toast.makeText(activity, "Bill saved in Downloads", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "تم حفظ الفاتورة in التنزيلات", Toast.LENGTH_SHORT).show()
 
             // cleanup
             root.removeView(composeView)
@@ -1199,39 +1199,39 @@ private fun SupplierInfoAdd(onSaveClick: (Supplier) -> Unit, onDismissRequest: (
 
             Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                 Text(
-                    text = "Add Supplier",
+                    text = "إضافة المورد",
                     style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 )
                 Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = "Add Name") }
+                    label = { Text(text = "إضافة الاسم") }
                 )
                 Spacer(Modifier.height(16.dp))
                 UtilsObject.leadingIconAndText(
                     modifier = Modifier.clickable { addContacts = !addContacts },
                     icon = if (!addContacts) Icons.Default.Add else Icons.Default.Remove,
-                    text = "Add Contacts"
+                    text = "إضافة Contacts"
                 )
                 if (addContacts) {
                     OutlinedTextField(
                         value = contacts,
                         onValueChange = { contacts = it.onlyPhone() },
-                        label = { Text(text = "Add Contacts") }
+                        label = { Text(text = "إضافة Contacts") }
                     )
                 }
                 Spacer(Modifier.height(16.dp))
                 UtilsObject.leadingIconAndText(
                     modifier = Modifier.clickable { addAddress = !addAddress },
                     icon = if (!addAddress) Icons.Default.Add else Icons.Default.Remove,
-                    text = "Add Address"
+                    text = "إضافة العنوان"
                 )
                 if (addAddress) {
                     OutlinedTextField(
                         value = address,
                         onValueChange = { address = it },
-                        label = { Text(text = "Add Contacts") }
+                        label = { Text(text = "إضافة Contacts") }
                     )
                 }
 
@@ -1240,7 +1240,7 @@ private fun SupplierInfoAdd(onSaveClick: (Supplier) -> Unit, onDismissRequest: (
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(onClick = { onDismissRequest() }) {
-                        Text(text = "Cancel")
+                        Text(text = "إلغاء")
                     }
 
                     Button(
@@ -1251,7 +1251,7 @@ private fun SupplierInfoAdd(onSaveClick: (Supplier) -> Unit, onDismissRequest: (
                             onSaveClick(updated_supplier)
                             onDismissRequest()
                         }) {
-                        Text(text = "Save")
+                        Text(text = "حفظ")
                     }
                 }
             }

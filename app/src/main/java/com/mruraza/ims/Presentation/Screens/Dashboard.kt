@@ -425,7 +425,7 @@ private fun DashBoardScreen(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             //border = BorderStroke(width = 1.dp, color = Gray05)
         ) {
-            Text(modifier = Modifier.padding(horizontal = 8.dp), text = "Popular Goods")
+            Text(modifier = Modifier.padding(horizontal = 8.dp), text = "Popular الأصناف")
             var weekSelected by remember { mutableStateOf(true) }
             var monthSelected by remember { mutableStateOf(false) }
             var yearSelected by remember { mutableStateOf(false) }
@@ -587,7 +587,7 @@ private fun DashBoardScreen(
             ) {
                 Column(modifier = Modifier.fillMaxWidth().weight(1f)) {
                     Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text("Suppliers Due")
+                        Text("الموردون Due")
                     }
                     var moreSelected by remember { mutableStateOf(false) }
                     var dateSelected by remember { mutableStateOf(true) }
@@ -641,7 +641,7 @@ private fun DashBoardScreen(
                 }
                 Column(modifier = Modifier.fillMaxWidth().weight(1f)) {
                     Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Text("Customers Due")
+                        Text("العملاء Due")
                     }
                     var moreSelected by remember { mutableStateOf(false) }
                     var dateSelected by remember { mutableStateOf(true) }
@@ -1196,5 +1196,5 @@ private const val ONEYEAR = "Year"
 private const val TENYEAR = "10 Year"
 private const val ONEWEEEK = "Week"
 private const val MORE = "More"
-private const val DATE = "Date"
+private const val DATE = "التاريخ"
 private const val MAXI = "Max"

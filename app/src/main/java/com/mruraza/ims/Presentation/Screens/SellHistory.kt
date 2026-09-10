@@ -145,7 +145,7 @@ private fun historyLayoutSell(
                 }
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
-                    text = "Rs $total",
+                    text = "ر.ي $total",
                     style = TextStyle(fontSize = 14.sp)
                 )
             }
@@ -177,7 +177,7 @@ private fun BillDetailedLayout(
             }
         }
         Spacer(Modifier.height(16.dp))
-        Text(text = "Date : ${bill.date}", style = TextStyle(fontSize = 14.sp))
+        Text(text = "التاريخ : ${bill.date}", style = TextStyle(fontSize = 14.sp))
         Text(text = "Bill No : ${bill.id}", style = TextStyle(fontSize = 14.sp))
 
         Spacer(Modifier.height(24.dp))
@@ -190,15 +190,15 @@ private fun BillDetailedLayout(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = it.first.name, style = TextStyle(fontSize = 12.sp))
-                Text(text = "Rs ${it.first.cp * it.second}", style = TextStyle(fontSize = 12.sp))
+                Text(text = "ر.ي ${it.first.cp * it.second}", style = TextStyle(fontSize = 12.sp))
             }
             Spacer(Modifier.height(8.dp))
             HorizontalDivider()
         }
         Spacer(Modifier.height(16.dp))
-        Text(text = "Total : Rs $total", style = TextStyle(fontSize = 14.sp))
-        Text(text = "Discount : Rs ${bill.discount}", style = TextStyle(fontSize = 14.sp))
-        Text(text = "Net Total : Rs ${total - bill.discount}", style = TextStyle(fontSize = 14.sp))
+        Text(text = "الإجمالي : ر.ي $total", style = TextStyle(fontSize = 14.sp))
+        Text(text = "الخصم : ر.ي ${bill.discount}", style = TextStyle(fontSize = 14.sp))
+        Text(text = "Net الإجمالي : ر.ي ${total - bill.discount}", style = TextStyle(fontSize = 14.sp))
     }
 }
 

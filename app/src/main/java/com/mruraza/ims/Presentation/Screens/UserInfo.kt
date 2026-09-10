@@ -70,7 +70,7 @@ fun UserInfoScreen(modifier: Modifier = Modifier, viewModel: UserInfoViewModel =
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         EditableRow(
-            label = "Name",
+            label = "الاسم",
             value = userInfo.name,
             isEditing = isEditing["name"] == true,
             onValueChange = { viewModel.updateUserInfo(userInfo.copy(name = it)) },
@@ -78,7 +78,7 @@ fun UserInfoScreen(modifier: Modifier = Modifier, viewModel: UserInfoViewModel =
         )
 
         EditableRow(
-            label = "Address",
+            label = "العنوان",
             value = userInfo.address,
             isEditing = isEditing["address"] == true,
             onValueChange = { viewModel.updateUserInfo(userInfo.copy(address = it)) },
@@ -86,7 +86,7 @@ fun UserInfoScreen(modifier: Modifier = Modifier, viewModel: UserInfoViewModel =
         )
 
         EditableRow(
-            label = "Phone",
+            label = "الهاتف",
             value = userInfo.phone,
             isEditing = isEditing["phone"] == true,
             onValueChange = { viewModel.updateUserInfo(userInfo.copy(phone = it.onlyPhone())) },
@@ -128,7 +128,7 @@ fun EditableRow(
                 Icons.Default.Edit
             }
         }) {
-            Icon(currentIcon, contentDescription = "Edit")
+            Icon(currentIcon, contentDescription = "تعديل")
         }
     }
 }

@@ -110,7 +110,7 @@ fun SuppliersManagementConsole(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search"
+                                    contentDescription = "بحث"
                                 )
                             }
                             IconButton(
@@ -133,7 +133,7 @@ fun SuppliersManagementConsole(
                                     }
                                 ) {
                                     DropdownMenuItem(
-                                        text = { Text("Go To Dashboard") },
+                                        text = { Text("Go To الرئيسية") },
                                         onClick = {
                                             navController.navigate(NavigationDestination.DASHBOARD)
                                             viewModel.updateIsMoreVertButtonClicked()
@@ -177,7 +177,7 @@ private fun SupplierScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "Error: ${(suppliersState as Resources.Error).throwable.message}",
+                    "خطأ: ${(suppliersState as Resources.خطأ).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -191,7 +191,7 @@ private fun SupplierScreenLayout(
                         modifier = Modifier.fillMaxWidth().padding(16.dp),
                         value = searchedText,
                         onValueChange = { viewModel.updateSearchedText(it) },
-                        label = { Text("Search") },
+                        label = { Text("بحث") },
                         trailingIcon = {
                             IconButton(
                                 onClick = { viewModel.updateSearchedText("") }
@@ -249,7 +249,7 @@ private fun AddSuppliers(
                 }
 
         ) {
-            Text("Add Suppliers", modifier = Modifier.align(Alignment.Center))
+            Text("إضافة الموردون", modifier = Modifier.align(Alignment.Center))
         }
     }
 }
@@ -272,39 +272,39 @@ private fun SupplierInfoAdd(
 
             Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
                 Text(
-                    text = "Add Supplier",
+                    text = "إضافة المورد",
                     style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 )
                 Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = "Add Name") }
+                    label = { Text(text = "إضافة الاسم") }
                 )
                 Spacer(Modifier.height(16.dp))
                 UtilsObject.leadingIconAndText(
                     modifier = Modifier.clickable { addContacts = !addContacts },
                     icon = if (!addContacts) Icons.Default.Add else Icons.Default.Remove,
-                    text = "Add Contacts"
+                    text = "إضافة Contacts"
                 )
                 if (addContacts) {
                     OutlinedTextField(
                         value = contacts,
                         onValueChange = { contacts = it.onlyPhone() },
-                        label = { Text(text = "Add Contacts") }
+                        label = { Text(text = "إضافة Contacts") }
                     )
                 }
                 Spacer(Modifier.height(16.dp))
                 UtilsObject.leadingIconAndText(
                     modifier = Modifier.clickable { addAddress = !addAddress },
                     icon = if (!addAddress) Icons.Default.Add else Icons.Default.Remove,
-                    text = "Add Address"
+                    text = "إضافة العنوان"
                 )
                 if (addAddress) {
                     OutlinedTextField(
                         value = address,
                         onValueChange = { address = it },
-                        label = { Text(text = "Add Contacts") }
+                        label = { Text(text = "إضافة Contacts") }
                     )
                 }
                 val updated_supplier =
@@ -314,7 +314,7 @@ private fun SupplierInfoAdd(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(onClick = { onDismissRequest() }) {
-                        Text(text = "Cancel")
+                        Text(text = "إلغاء")
                     }
 
                     Button(
@@ -323,7 +323,7 @@ private fun SupplierInfoAdd(
                             onSaveClick(updated_supplier)
                             onDismissRequest()
                         }) {
-                        Text(text = "Save")
+                        Text(text = "حفظ")
                     }
                 }
             }
@@ -475,12 +475,12 @@ private fun SupplierDetailedViewLayout(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Suppliers Details",
+                        text = "الموردون Details",
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(bottom = 16.dp).weight(1f)
                     )
                     IconButton(onClick = {}) {
-                        Icon(Icons.Default.History, contentDescription = "History")
+                        Icon(Icons.Default.History, contentDescription = "السجل")
                     }
 
                 }
@@ -488,7 +488,7 @@ private fun SupplierDetailedViewLayout(
 
                 // Name field
                 EditableFieldRow(
-                    label = "Name",
+                    label = "الاسم",
                     value = name,
                     onValueChange = { name = it },
                     editable = isNameEditable,
@@ -497,7 +497,7 @@ private fun SupplierDetailedViewLayout(
 
                 // Phone field
                 EditableFieldRow(
-                    label = "Phone",
+                    label = "الهاتف",
                     value = phone,
                     onValueChange = { phone = it.onlyPhone() },
                     editable = isPhoneEditable,
@@ -507,7 +507,7 @@ private fun SupplierDetailedViewLayout(
 
                 // Address field
                 EditableFieldRow(
-                    label = "Address",
+                    label = "العنوان",
                     value = address,
                     onValueChange = { address = it },
                     editable = isAddressEditable,
@@ -541,20 +541,20 @@ private fun SupplierDetailedViewLayout(
                             .weight(1f),
                         value = dueDate,
                         onValueChange = { dueDate = it.formatAsDateKeepCursorAtEnd() },
-                        label = { Text("Due Date") },
+                        label = { Text("Due التاريخ") },
                         readOnly = !isDueDateEditable,
                         enabled = isDueDateEditable,
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                     IconButton(onClick = { isDueDateEditable = !isDueDateEditable }) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit Due Date")
+                        Icon(Icons.Default.Edit, contentDescription = "تعديل Due التاريخ")
                     }
                 }
 
                 // total paid field
                 EditableFieldRow(
-                    label = "Total Paid",
+                    label = "الإجمالي Paid",
                     value = totalPaid,
                     onValueChange = {
                         totalPaid = it.onlyDouble()
@@ -567,7 +567,7 @@ private fun SupplierDetailedViewLayout(
 
                 Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                     TextButton(onClick = onDismissRequest) {
-                        Text("Cancel")
+                        Text("إلغاء")
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(onClick = {
@@ -582,7 +582,7 @@ private fun SupplierDetailedViewLayout(
                         )
                         onSavaClick(supplier)
                     }) {
-                        Text("Save")
+                        Text("حفظ")
                     }
                 }
             }
@@ -620,7 +620,7 @@ private fun EditableFieldRow(
             keyboardOptions = keyboardOptions
         )
         IconButton(onClick = onEditClick) {
-            Icon(Icons.Default.Edit, contentDescription = "Edit $label")
+            Icon(Icons.Default.Edit, contentDescription = "تعديل $label")
         }
     }
 }

@@ -110,7 +110,7 @@ fun customerManagementConsole(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search"
+                                    contentDescription = "بحث"
                                 )
                             }
                             IconButton(
@@ -133,7 +133,7 @@ fun customerManagementConsole(
                                     }
                                 ) {
                                     DropdownMenuItem(
-                                        text = { Text("Go To Dashboard") },
+                                        text = { Text("Go To الرئيسية") },
                                         onClick = {
                                             navController.navigate(NavigationDestination.DASHBOARD)
                                             customerManagementViewModel.updateIsMoreVertButtonClicked()
@@ -173,7 +173,7 @@ private fun CustomerScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "Error: ${(customerState as Resources.Error).throwable.message}",
+                    "خطأ: ${(customerState as Resources.خطأ).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -189,7 +189,7 @@ private fun CustomerScreenLayout(
                         modifier = Modifier.fillMaxWidth().padding(16.dp),
                         value = searchedText,
                         onValueChange = { viewModel.updateSearchedText(it) },
-                        label = { Text("Search") },
+                        label = { Text("بحث") },
                         trailingIcon = {
                             IconButton(
                                 onClick = { viewModel.updateSearchedText("") }
@@ -244,7 +244,7 @@ private fun AddCustomer(
                 }
 
         ) {
-            Text("Add Customer", modifier = Modifier.align(Alignment.Center))
+            Text("إضافة العميل", modifier = Modifier.align(Alignment.Center))
         }
     }
 }
@@ -261,7 +261,7 @@ fun addCustomerLayout(
     var address by remember { mutableStateOf("") }
     var dueAmount by remember { mutableStateOf("") }
     val errors = mutableMapOf<String, String>()
-    if (name.isEmpty()) errors["name"] = "Name is required"
+    if (name.isEmpty()) errors["name"] = "الاسم is required"
     if (contactInfo.isNotEmpty() && contactInfo.length != 10) errors["contactInfo"] =
         "Invalid Contact Info"
 
@@ -274,7 +274,7 @@ fun addCustomerLayout(
                     modifier = Modifier.fillMaxWidth(),
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Name") },
+                    label = { Text("الاسم") },
                     isError = errors.containsKey("name"),
                     supportingText = {
                         if (errors.containsKey("name")) {
@@ -301,14 +301,14 @@ fun addCustomerLayout(
                     modifier = Modifier.fillMaxWidth(),
                     value = address,
                     onValueChange = { address = it },
-                    label = { Text("Address") }
+                    label = { Text("العنوان") }
                 )
 
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = dueAmount,
                     onValueChange = { dueAmount = it.onlyDouble() },
-                    label = { Text("Due Amount") },
+                    label = { Text("Due المبلغ") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
                 Spacer(Modifier.height(16.dp))
@@ -319,7 +319,7 @@ fun addCustomerLayout(
                     Button(
                         onClick = { onDismissRequest() }
                     ) {
-                        Text("Cancel")
+                        Text("إلغاء")
                     }
                     Button(
                         enabled = errors.isEmpty(),
@@ -334,7 +334,7 @@ fun addCustomerLayout(
                             onSavaClick(customer)
                         }
                     ) {
-                        Text("Save")
+                        Text("حفظ")
                     }
                 }
             }
@@ -477,12 +477,12 @@ private fun customerDetailedViewLayout(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Customer Details",
+                        text = "العميل Details",
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(bottom = 16.dp).weight(1f)
                     )
                     IconButton(onClick = {}) {
-                        Icon(Icons.Default.History, contentDescription = "History")
+                        Icon(Icons.Default.History, contentDescription = "السجل")
                     }
 
                 }
@@ -490,7 +490,7 @@ private fun customerDetailedViewLayout(
 
                 // Name field
                 EditableFieldRow(
-                    label = "Name",
+                    label = "الاسم",
                     value = name,
                     onValueChange = { name = it },
                     editable = isNameEditable,
@@ -499,7 +499,7 @@ private fun customerDetailedViewLayout(
 
                 // Phone field
                 EditableFieldRow(
-                    label = "Phone",
+                    label = "الهاتف",
                     value = phone,
                     onValueChange = { phone = it.onlyPhone() },
                     editable = isPhoneEditable,
@@ -509,7 +509,7 @@ private fun customerDetailedViewLayout(
 
                 // Address field
                 EditableFieldRow(
-                    label = "Address",
+                    label = "العنوان",
                     value = address,
                     onValueChange = { address = it },
                     editable = isAddressEditable,
@@ -543,14 +543,14 @@ private fun customerDetailedViewLayout(
                             .weight(1f),
                         value = dueDate,
                         onValueChange = { dueDate = it.formatAsDateKeepCursorAtEnd() },
-                        label = { Text("Due Date") },
+                        label = { Text("Due التاريخ") },
                         readOnly = !isDueDateEditable,
                         enabled = isDueDateEditable,
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                     IconButton(onClick = { isDueDateEditable = !isDueDateEditable }) {
-                        Icon(Icons.Default.Edit, contentDescription = "Edit Due Date")
+                        Icon(Icons.Default.Edit, contentDescription = "تعديل Due التاريخ")
                     }
                 }
 
@@ -558,7 +558,7 @@ private fun customerDetailedViewLayout(
 
                 Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                     TextButton(onClick = onDismissRequest) {
-                        Text("Cancel")
+                        Text("إلغاء")
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
@@ -575,7 +575,7 @@ private fun customerDetailedViewLayout(
                             onDismissRequest()
                             onSavaClick(updatedCustomer)
                         }) {
-                        Text("Save")
+                        Text("حفظ")
                     }
                 }
             }
@@ -613,7 +613,7 @@ private fun EditableFieldRow(
             keyboardOptions = keyboardOptions
         )
         IconButton(onClick = onEditClick) {
-            Icon(Icons.Default.Edit, contentDescription = "Edit $label")
+            Icon(Icons.Default.Edit, contentDescription = "تعديل $label")
         }
     }
 }

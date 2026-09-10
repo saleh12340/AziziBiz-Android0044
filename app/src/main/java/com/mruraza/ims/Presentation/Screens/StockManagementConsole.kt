@@ -127,7 +127,7 @@ fun StockScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = "Search"
+                                    contentDescription = "بحث"
                                 )
                             }
                             IconButton(
@@ -191,7 +191,7 @@ private fun StockScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "Error: ${(suppliersState as Resources.Error).throwable.message}",
+                    "خطأ: ${(suppliersState as Resources.خطأ).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -218,7 +218,7 @@ private fun StockScreenLayout(
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                         value = searchText,
                         onValueChange = { stockViewModel.updateSearchedText(it) },
-                        label = { Text("Search") },
+                        label = { Text("بحث") },
                         trailingIcon = {
                             IconButton(
                                 onClick = {
@@ -228,7 +228,7 @@ private fun StockScreenLayout(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Clear,
-                                    contentDescription = "Clear Search"
+                                    contentDescription = "Clear بحث"
                                 )
                             }
                         }
@@ -262,7 +262,7 @@ private fun StockScreenLayout(
             is Resources.Error -> {
                 Toast.makeText(
                     LocalContext.current,
-                    "Error: ${(goodsState as Resources.Error).throwable.message}",
+                    "خطأ: ${(goodsState as Resources.خطأ).throwable.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -392,7 +392,7 @@ private fun contentLayout(
             Text(text = goods.name)
             Spacer(Modifier.height(2.dp))
             Text(
-                text = "Rs ${goods.price}",
+                text = "ر.ي ${goods.price}",
                 style = TextStyle(color = Color.Black, fontWeight = FontWeight.Bold)
             )
         }
@@ -449,10 +449,10 @@ private fun stockManage(
                     modifier = Modifier.fillMaxWidth(),
                     value = goodName,
                     onValueChange = { goodName = it },
-                    label = { Text("Name") },
+                    label = { Text("الاسم") },
                     trailingIcon = {
                         IconButton(onClick = { goodNameEditable = !goodNameEditable }) {
-                            Icon(Icons.Default.Edit, contentDescription = "Edit Name")
+                            Icon(Icons.Default.Edit, contentDescription = "تعديل الاسم")
                         }
                     },
                     readOnly = !goodNameEditable,
@@ -463,10 +463,10 @@ private fun stockManage(
                     modifier = Modifier.fillMaxWidth(),
                     value = costPrice.toString(),
                     onValueChange = { costPrice = it.onlyDouble().toDouble() },
-                    label = { Text("Cost Price") },
+                    label = { Text("Cost السعر") },
                     trailingIcon = {
                         IconButton(onClick = { costPriceEditable = !costPriceEditable }) {
-                            Icon(Icons.Default.Edit, contentDescription = "Edit Price")
+                            Icon(Icons.Default.Edit, contentDescription = "تعديل السعر")
                         }
                     },
                     readOnly = !costPriceEditable,
@@ -478,10 +478,10 @@ private fun stockManage(
                     modifier = Modifier.fillMaxWidth(),
                     value = goodPrice.toString(),
                     onValueChange = { goodPrice = it.onlyDouble().toDouble() },
-                    label = { Text("Price") },
+                    label = { Text("السعر") },
                     trailingIcon = {
                         IconButton(onClick = { goodPriceEditable = !goodPriceEditable }) {
-                            Icon(Icons.Default.Edit, contentDescription = "Edit Price")
+                            Icon(Icons.Default.Edit, contentDescription = "تعديل السعر")
                         }
                     },
                     readOnly = !goodPriceEditable,
@@ -493,10 +493,10 @@ private fun stockManage(
                     modifier = Modifier.fillMaxWidth(),
                     value = goodQuantity.toString(),
                     onValueChange = { goodQuantity = it.onlyDigits().toInt() },
-                    label = { Text("Quantity") },
+                    label = { Text("الكمية") },
                     trailingIcon = {
                         IconButton(onClick = { goodQuantityEditable = !goodQuantityEditable }) {
-                            Icon(Icons.Default.Edit, contentDescription = "Edit Quantity")
+                            Icon(Icons.Default.Edit, contentDescription = "تعديل الكمية")
                         }
                     },
                     readOnly = !goodQuantityEditable,
@@ -505,7 +505,7 @@ private fun stockManage(
                 )
 
                 Spacer(Modifier.height(16.dp))
-                Text(text = "Supplier")
+                Text(text = "المورد")
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -546,7 +546,7 @@ private fun stockManage(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit Supplier"
+                                contentDescription = "تعديل المورد"
                             )
                         }
 
@@ -557,7 +557,7 @@ private fun stockManage(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Add Supplier"
+                                contentDescription = "إضافة المورد"
                             )
                         }
                     }
@@ -568,12 +568,12 @@ private fun stockManage(
                     modifier = Modifier.fillMaxWidth(),
                     value = goodDescription,
                     onValueChange = { goodDescription = it },
-                    label = { Text("Description") },
+                    label = { Text("الوصف") },
                     trailingIcon = {
                         IconButton(onClick = {
                             goodDescriptionEditable = !goodDescriptionEditable
                         }) {
-                            Icon(Icons.Default.Edit, contentDescription = "Edit Description")
+                            Icon(Icons.Default.Edit, contentDescription = "تعديل الوصف")
                         }
                     },
                     readOnly = !goodDescriptionEditable,
@@ -594,7 +594,7 @@ private fun stockManage(
                     Button(onClick = {
                         onDialogCancel()
                     }) {
-                        Text(text = "Cancel")
+                        Text(text = "إلغاء")
                     }
 
                     Button(
@@ -613,7 +613,7 @@ private fun stockManage(
                             onSave(finalStock)
                             onDialogCancel()
                         }) {
-                        Text(text = "Save")
+                        Text(text = "حفظ")
                     }
                 }
             }
@@ -654,7 +654,7 @@ private fun AddStock(
                 }
 
         ) {
-            Text("Add Stock", modifier = Modifier.align(Alignment.Center))
+            Text("إضافة Stock", modifier = Modifier.align(Alignment.Center))
         }
     }
 }
@@ -704,14 +704,14 @@ fun addStockLayout(
                 var showLongPressAddSupplierButtonToast by remember { mutableStateOf(false) }
                 // to check the error on the outlined text field
                 val errors = mutableMapOf<String, String>()
-                if (name.isEmpty()) errors["name"] = "Name is required"
-                if (quantity.isEmpty()) errors["quantity"] = "Quantity is required"
-                if (price.isEmpty()) errors["price"] = "Price is required"
-                if (costPrice.isEmpty()) errors["cp"] = "Cost Price Can't Be Empty"
+                if (name.isEmpty()) errors["name"] = "الاسم is required"
+                if (quantity.isEmpty()) errors["quantity"] = "الكمية is required"
+                if (price.isEmpty()) errors["price"] = "السعر is required"
+                if (costPrice.isEmpty()) errors["cp"] = "Cost السعر Can't Be Empty"
                 var isSupplerAddDialogOpen by remember { mutableStateOf(false) }
 
                 Text(
-                    text = "Add Stock",
+                    text = "إضافة Stock",
                     style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 )
                 Spacer(Modifier.height(16.dp))
@@ -719,14 +719,14 @@ fun addStockLayout(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Name") },
+                    label = { Text("الاسم") },
                     isError = errors.containsKey("name"),
                     supportingText = { Text(errors["name"] ?: "") }
                 )
                 OutlinedTextField(
                     value = quantity,
                     onValueChange = { quantity = it.onlyDigits() },
-                    label = { Text("Quantity") },
+                    label = { Text("الكمية") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = errors.containsKey("quantity"),
                     supportingText = { Text(errors["quantity"] ?: "") }
@@ -735,7 +735,7 @@ fun addStockLayout(
                 OutlinedTextField(
                     value = costPrice,
                     onValueChange = { costPrice = it.onlyDouble() },
-                    label = { Text("Cost Price") },
+                    label = { Text("Cost السعر") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = errors.containsKey("cp"),
                     supportingText = { Text(errors["cp"] ?: "") }
@@ -744,14 +744,14 @@ fun addStockLayout(
                 OutlinedTextField(
                     value = price,
                     onValueChange = { price = it.onlyDouble() },
-                    label = { Text("Price") },
+                    label = { Text("السعر") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = errors.containsKey("price"),
                     supportingText = { Text(errors["price"] ?: "") }
                 )
 
 
-                Text(text = "Supplier")
+                Text(text = "المورد")
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -782,7 +782,7 @@ fun addStockLayout(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
-                                contentDescription = "Add Supplier"
+                                contentDescription = "إضافة المورد"
                             )
                         }
                     }
@@ -791,7 +791,7 @@ fun addStockLayout(
                 OutlinedTextField(
                     value = description,
                     onValueChange = { description = it },
-                    label = { Text("Description") }
+                    label = { Text("الوصف") }
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
@@ -822,7 +822,7 @@ fun addStockLayout(
                     Button(onClick = {
                         onDismissRequest()
                     }) {
-                        Text(text = "Cancel")
+                        Text(text = "إلغاء")
                     }
                     Spacer(Modifier.width(8.dp))
                     Button(
@@ -840,7 +840,7 @@ fun addStockLayout(
                             )
                             onSavaClick(goods)
                         }) {
-                        Text(text = "Add")
+                        Text(text = "إضافة")
                     }
                 }
 
@@ -857,7 +857,7 @@ fun addStockLayout(
                 }
                 if (showLongPressAddSupplierButtonToast) {
                     val context = LocalContext.current
-                    Toast.makeText(context, "Add Suppliers", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "إضافة الموردون", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -878,39 +878,39 @@ private fun SupplierInfoAdd(onSaveClick: (Supplier) -> Unit, onDismissRequest: (
 
             Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
                 Text(
-                    text = "Add Supplier",
+                    text = "إضافة المورد",
                     style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 )
                 Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = "Add Name") }
+                    label = { Text(text = "إضافة الاسم") }
                 )
                 Spacer(Modifier.height(16.dp))
                 UtilsObject.leadingIconAndText(
                     modifier = Modifier.clickable { addContacts = !addContacts },
                     icon = if (!addContacts) Icons.Default.Add else Icons.Default.Remove,
-                    text = "Add Contacts"
+                    text = "إضافة Contacts"
                 )
                 if (addContacts) {
                     OutlinedTextField(
                         value = contacts,
                         onValueChange = { contacts = it.onlyPhone() },
-                        label = { Text(text = "Add Contacts") }
+                        label = { Text(text = "إضافة Contacts") }
                     )
                 }
                 Spacer(Modifier.height(16.dp))
                 UtilsObject.leadingIconAndText(
                     modifier = Modifier.clickable { addAddress = !addAddress },
                     icon = if (!addAddress) Icons.Default.Add else Icons.Default.Remove,
-                    text = "Add Address"
+                    text = "إضافة العنوان"
                 )
                 if (addAddress) {
                     OutlinedTextField(
                         value = address,
                         onValueChange = { address = it },
-                        label = { Text(text = "Add Contacts") }
+                        label = { Text(text = "إضافة Contacts") }
                     )
                 }
 
@@ -919,7 +919,7 @@ private fun SupplierInfoAdd(onSaveClick: (Supplier) -> Unit, onDismissRequest: (
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Button(onClick = { onDismissRequest() }) {
-                        Text(text = "Cancel")
+                        Text(text = "إلغاء")
                     }
 
                     Button(
@@ -930,7 +930,7 @@ private fun SupplierInfoAdd(onSaveClick: (Supplier) -> Unit, onDismissRequest: (
                             onSaveClick(updated_supplier)
                             onDismissRequest()
                         }) {
-                        Text(text = "Save")
+                        Text(text = "حفظ")
                     }
                 }
             }
