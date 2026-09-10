@@ -17,7 +17,13 @@ class UserInfoViewModel @Inject constructor(
     private val saveUserInfoUseCase: SaveUserInfoUseCase
 ) : ViewModel() {
 
-    private val _userInfo = MutableStateFlow(UserInfo("", "", ""))
+    private val defaultBusiness = UserInfo(
+        name = "بقالة العزي للمواد الغذائية",
+        address = "",
+        phone = "776425052"
+    )
+
+    private val _userInfo = MutableStateFlow(defaultBusiness)
     val userInfo: StateFlow<UserInfo> = _userInfo
 
     private val _isEditing = MutableStateFlow(
@@ -25,16 +31,18 @@ class UserInfoViewModel @Inject constructor(
     )
     val isEditing: StateFlow<Map<String, Boolean>> = _isEditing
 
-    init {
-        loadUserInfo()
-    }
+    init { loadUserInfo() }
 
-    fun refresh(){
-        loadUserInfo()
-    }
+    fun refresh() { loadUserInfo() }
 
     private fun loadUserInfo() {
-        _userInfo.value = getUserInfoUseCase()
+        val saved = getUserInfoUseCase()
+        if (saved.name.isBlank() && saved.phone.isBlank()) {
+            _userInfo.value = defaultBusiness
+            viewModelScope.launch { saveUserInfoUseCase(defaultBusiness) }
+        } else {
+            _userInfo.value = saved
+        }
     }
 
     fun toggleEditing(field: String) {
