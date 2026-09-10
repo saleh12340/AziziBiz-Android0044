@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -25,7 +28,6 @@ import com.mruraza.ims.Utils.Consts.NavigationDestination
 import com.mruraza.ims.ui.theme.IMSTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,62 +35,55 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             IMSTheme {
-
-                val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = NavigationDestination.DASHBOARD, builder = {
-                    composable(NavigationDestination.LANDING){
-                        landingScreen(navController = navController)
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = NavigationDestination.DASHBOARD
+                    ) {
+                        composable(NavigationDestination.LANDING) {
+                            landingScreen(navController = navController)
+                        }
+                        composable(NavigationDestination.BILL) {
+                            val profileViewModel: UserInfoViewModel = hiltViewModel()
+                            profileViewModel.refresh()
+                            val userInfo by profileViewModel.userInfo.collectAsStateWithLifecycle()
+                            Billing(
+                                title = "فواتير المبيعات",
+                                ownerName = userInfo.name,
+                                ownerAddress = userInfo.address,
+                                ownerContact = userInfo.phone,
+                                activity = this@MainActivity,
+                                navController = navController
+                            )
+                        }
+                        composable(NavigationDestination.PURCHASEBILL) {
+                            PurchaseBilling(title = "فاتورة مشتريات", activity = this@MainActivity, navController = navController)
+                        }
+                        composable(NavigationDestination.CUSTOMER) {
+                            customerManagementConsole(title = "حسابات العملاء", navController = navController)
+                        }
+                        composable(NavigationDestination.SUPPLIERS) {
+                            SuppliersManagementConsole(title = "الموردون", navController = navController)
+                        }
+                        composable(NavigationDestination.PROFILE) {
+                            UserProfilesScreen(title = "بيانات البقالة", navController = navController)
+                        }
+                        composable(NavigationDestination.STOCK) {
+                            StockScreen(title = "المخزون والأصناف", navController = navController)
+                        }
+                        composable(NavigationDestination.DASHBOARD) {
+                            DashboardScreen(title = "بقالة العزي للمواد الغذائية", navController = navController)
+                        }
+                        composable(NavigationDestination.PURCHASEHISTORY) {
+                            purchaseHistory(title = "سجل المشتريات", navController = navController)
+                        }
+                        composable(NavigationDestination.SELLHISTORY) {
+                            sellHistory(title = "سجل المبيعات", navController = navController)
+                        }
                     }
-                    composable(NavigationDestination.BILL){
-                        val profileViewModel: UserInfoViewModel = hiltViewModel()
-                        profileViewModel.refresh()
-                        val userInfo by profileViewModel.userInfo.collectAsStateWithLifecycle()
-                        Billing(
-                            title ="Billing Management Console",
-                            ownerName = userInfo.name,
-                            ownerAddress = userInfo.address,
-                            ownerContact = userInfo.phone,
-                            activity = this@MainActivity,
-                            navController = navController
-                        )
-                    }
-                    composable(route= NavigationDestination.PURCHASEBILL){
-                        PurchaseBilling(
-                            title = "Purchase Bill",
-                            activity = this@MainActivity,
-                            navController = navController
-                        )
-                    }
-                    composable(NavigationDestination.CUSTOMER){
-                        customerManagementConsole(title="Customer Management Console",navController=navController)
-                    }
-                    composable(NavigationDestination.SUPPLIERS){
-                        SuppliersManagementConsole(title = "Suppliers Management Console",navController=navController)
-                    }
-                    composable(NavigationDestination.PROFILE){
-                        UserProfilesScreen(title = "User Profile",navController=navController)
-                    }
-                    composable(NavigationDestination.STOCK){
-                        StockScreen(title="Stock Management Console", navController = navController)
-                    }
-                    composable(NavigationDestination.DASHBOARD){
-                        DashboardScreen(title = "Dashboard",navController=navController)
-                    }
-                    composable(NavigationDestination.PURCHASEHISTORY){
-                        purchaseHistory(
-                            title = "Purchase History",
-                            navController = navController
-                        )
-                    }
-                    composable(NavigationDestination.SELLHISTORY){
-                        sellHistory(
-                            title = "Sell History",
-                            navController = navController
-                        )
-                    }
-                })
+                }
             }
         }
     }
 }
-
